@@ -1,6 +1,9 @@
 'use client';
 // import { Image } from '@nextui-org/react';
 // import { Image } from 'next/image';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
 import {
   Card,
   CardFooter,
@@ -8,16 +11,23 @@ import {
   Divider,
   Image,
   CardBody,
-  Link,
   Button,
+  Select,
+  SelectItem,
 } from '@nextui-org/react';
 import { useGetProductDetailQuery } from '../redux/slice/productsApi.slice';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import Rating from '../Components/Rating/Rating';
 import SingleProductLoader from '../Components/SingleProductLoader/SingleProductLoader';
+import { addToCart } from '../redux/slice/cartSlice';
 
 const SingleProductScreen = ({ id }) => {
   const { data: product, isLoading, isError } = useGetProductDetailQuery(id);
+
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const [qty, setQty] = useState(1);
 
   if (isLoading) {
     return (
@@ -32,6 +42,16 @@ const SingleProductScreen = ({ id }) => {
   if (isError) {
     return <p>{isError?.data?.message || isError?.error}</p>;
   }
+
+  const addToCartHandler = () => {
+    dispatch(
+      addToCart({
+        ...product,
+        qty,
+      })
+    );
+    router.push('/cart');
+  };
 
   return (
     <>
@@ -62,6 +82,7 @@ const SingleProductScreen = ({ id }) => {
               <h5>
                 <span className="font-bold">Price:</span> रु‎ {product.price}
               </h5>
+
               <Divider className="my-3" />
             </div>
             <article className="max-w-[90%]">
@@ -97,8 +118,33 @@ const SingleProductScreen = ({ id }) => {
                 </p>
               </CardBody>
               <Divider />
+              <CardBody>
+                {product.countInStock > 0 && (
+                  <>
+                    <div className="flex">
+                      <h5 className="font-bold">Qty</h5>
+                      <Select
+                        size="sm"
+                        value={qty}
+                        onChange={(e) => setQty(Number(e.target.value))}
+                        label="Select Quantity"
+                      >
+                        {[...Array(product.countInStock).keys()].map((x) => (
+                          <SelectItem key={x + 1} value={x + 1}>
+                            {x + 1}
+                          </SelectItem>
+                        ))}
+                      </Select>
+                    </div>
+                  </>
+                )}
+              </CardBody>
+              <Divider />
               <CardFooter>
-                <Button endContent={<AiOutlineShoppingCart />}>
+                <Button
+                  endContent={<AiOutlineShoppingCart />}
+                  onClick={addToCartHandler}
+                >
                   Add to cart
                 </Button>
               </CardFooter>
