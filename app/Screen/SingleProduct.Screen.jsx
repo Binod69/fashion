@@ -32,6 +32,7 @@ const SingleProductScreen = ({ id }) => {
         <div className="flex justify-between  flex-col lg:flex-row lg:h-screen">
           <figure className=" max-w-[300px] mx-auto md:max-w-[500px] lg:max-w-[500px]">
             <Image
+              radius="sm"
               alt={product.title}
               className="object-cover"
               src={product.image}

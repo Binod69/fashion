@@ -104,11 +104,12 @@ const Navbars = () => {
             <NavbarItem>
               <Link href="/">
                 <Button
+                  isIconOnly
                   variant="bordered"
                   aria-label="Add to cart"
-                  endContent={<AiOutlineShoppingCart />}
+                  onClick={(e) => e.preventDefault()}
                 >
-                  Cart
+                  <AiOutlineShoppingCart />
                 </Button>
               </Link>
               <Link href="/" className="ms-3">
@@ -116,6 +117,7 @@ const Navbars = () => {
                   variant="bordered"
                   aria-label="login or sign up"
                   endContent={<AiOutlineUser />}
+                  onClick={(e) => e.preventDefault()}
                 >
                   Login
                 </Button>
