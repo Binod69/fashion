@@ -14,12 +14,19 @@ import {
 import { useGetProductDetailQuery } from '../redux/slice/productsApi.slice';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import Rating from '../Components/Rating/Rating';
+import SingleProductLoader from '../Components/SingleProductLoader/SingleProductLoader';
 
 const SingleProductScreen = ({ id }) => {
   const { data: product, isLoading, isError } = useGetProductDetailQuery(id);
 
   if (isLoading) {
-    return <p>loading...</p>;
+    return (
+      <>
+        <div className="container mx-auto py-20 lg:h-screen">
+          <SingleProductLoader />
+        </div>
+      </>
+    );
   }
 
   if (isError) {
