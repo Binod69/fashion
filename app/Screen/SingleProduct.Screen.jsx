@@ -1,6 +1,4 @@
 'use client';
-// import { Image } from '@nextui-org/react';
-// import { Image } from 'next/image';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
@@ -123,7 +121,7 @@ const SingleProductScreen = ({ id }) => {
                   <>
                     <div className="flex">
                       <h5 className="font-bold">Qty</h5>
-                      <Select
+                      {/* <Select
                         size="sm"
                         value={qty}
                         onChange={(e) => setQty(Number(e.target.value))}
@@ -134,7 +132,17 @@ const SingleProductScreen = ({ id }) => {
                             {x + 1}
                           </SelectItem>
                         ))}
-                      </Select>
+                      </Select> */}
+                      <select
+                        value={qty}
+                        onChange={(e) => setQty(Number(e.target.value))}
+                      >
+                        {[...Array(product.countInStock).keys()].map((x) => (
+                          <option key={x + 1} value={x + 1}>
+                            {x + 1}
+                          </option>
+                        ))}
+                      </select>
                     </div>
                   </>
                 )}
