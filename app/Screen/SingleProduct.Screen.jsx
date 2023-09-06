@@ -20,7 +20,7 @@ import SingleProductLoader from '../Components/SingleProductLoader/SingleProduct
 import { addToCart } from '../redux/slice/cartSlice';
 
 const SingleProductScreen = ({ id }) => {
-  const { data: product, isLoading, isError } = useGetProductDetailQuery(id);
+  const { data: product, isLoading, error } = useGetProductDetailQuery(id);
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -37,10 +37,9 @@ const SingleProductScreen = ({ id }) => {
     );
   }
 
-  if (isError) {
-    return <p>{isError?.data?.message || isError?.error}</p>;
+  if (error) {
+    return <p>{error?.data?.message || error?.error}</p>;
   }
-
   const addToCartHandler = () => {
     dispatch(
       addToCart({
@@ -152,6 +151,7 @@ const SingleProductScreen = ({ id }) => {
                 <Button
                   endContent={<AiOutlineShoppingCart />}
                   onClick={addToCartHandler}
+                  disabled={product.countInStock === 0}
                 >
                   Add to cart
                 </Button>

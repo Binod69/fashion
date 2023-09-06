@@ -3,7 +3,7 @@ import Products from '../Products/Products';
 import { useGetProductsQuery } from '@/app/redux/slice/productsApi.slice';
 import HomeLoader from './HomeLoader';
 const FetchProducts = () => {
-  const { data: products, isLoading, isError } = useGetProductsQuery();
+  const { data: products, isLoading, error } = useGetProductsQuery();
 
   if (isLoading) {
     return (
@@ -13,8 +13,8 @@ const FetchProducts = () => {
     );
   }
 
-  if (isError) {
-    return <p>{isError?.data?.message || isError?.error}</p>;
+  if (error) {
+    return <p>{error?.data?.message || error?.error}</p>;
   }
   return (
     <>

@@ -1,4 +1,4 @@
-import SingleProductScreen from '@/app/Screen/SingleProduct.Screen';
+import SingleProductScreen from '../../Screen/SingleProduct.Screen';
 
 const page = ({ params: { id } }) => {
   return (
