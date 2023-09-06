@@ -6,23 +6,30 @@ const Products = ({ product }) => {
   return (
     <>
       <div>
-        <Card shadow="sm" isPressable isHoverable className="max-w-[100%]">
-          <CardBody className="overflow-visible p-0">
+        <Card
+          radius="sm"
+          shadow="sm"
+          isPressable
+          isHoverable
+          className="py-4 max-w-[100%]"
+        >
+          <CardBody className="overflow-visible py-2">
             <Link href={`/products/${product._id}`}>
               <Image
-                shadow="sm"
-                radius="md"
-                width="100%"
-                alt={product.name}
-                className="w-full object-cover h-[240px]"
+                radius="sm"
+                alt={product.title}
+                className="object-cover "
                 src={product.image}
+                width={270}
               />
             </Link>
           </CardBody>
-          <CardHeader className="pb-0 pt-2 px-4 flex-col  items-start">
+          <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
             <p className="text-tiny uppercase font-bold">{product.title}</p>
-            <small className="text-default-500">{product.price}</small>
-            <span className=" overflow-hidden">{product.description}</span>
+            <small className="text-default-500">
+              Price: रु‎ {product.price}
+            </small>
+            {/* <h4 className="font-bold text-large">{product.title}</h4> */}
           </CardHeader>
         </Card>
       </div>
