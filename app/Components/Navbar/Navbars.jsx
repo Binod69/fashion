@@ -10,12 +10,15 @@ import {
   NavbarMenu,
   NavbarMenuItem,
   Button,
+  Badge,
 } from '@nextui-org/react';
 import { motion } from 'framer-motion';
 import { AiOutlineShoppingCart, AiOutlineUser } from 'react-icons/ai';
+import { useSelector } from 'react-redux';
 
 const Navbars = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { cartItems } = useSelector((state) => state.cart);
 
   return (
     <>
@@ -103,14 +106,23 @@ const Navbars = () => {
           >
             <NavbarItem>
               <Link href="/">
-                <Button
-                  isIconOnly
-                  variant="bordered"
-                  aria-label="Add to cart"
-                  onClick={(e) => e.preventDefault()}
-                >
-                  <AiOutlineShoppingCart />
-                </Button>
+                {cartItems.length > 0 && (
+                  <Badge
+                    content={cartItems.reduce((a, c) => a + c.qty, 0)}
+                    shape="circle"
+                    color="danger"
+                  >
+                    <Button
+                      radius="full"
+                      isIconOnly
+                      variant="light"
+                      aria-label="Add to cart"
+                      onClick={(e) => e.preventDefault()}
+                    >
+                      <AiOutlineShoppingCart size={18} />
+                    </Button>
+                  </Badge>
+                )}
               </Link>
               <Link href="/" className="ms-3">
                 <Button
