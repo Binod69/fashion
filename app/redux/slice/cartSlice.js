@@ -12,7 +12,7 @@ const addDecimals = (num) => {
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
-  reducer: {
+  reducers: {
     addToCart: (state, action) => {
       const item = action.payload;
       const existItem = state.cartItems.find((x) => x._id === item._id);
