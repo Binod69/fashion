@@ -12,7 +12,6 @@ import {
   Button,
   Badge,
 } from '@nextui-org/react';
-import { motion } from 'framer-motion';
 import { AiOutlineShoppingCart, AiOutlineUser } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
 
@@ -74,33 +73,24 @@ const Navbars = () => {
 
         <NavbarContent justify="end">
           <NavbarItem className="flex gap-3 items-center">
-            <Link href="/cart">
-              {cartItems.length > 0 ? (
-                <Badge
-                  content={cartItems.reduce((a, c) => a + c.qty, 0)}
-                  shape="circle"
-                  color="danger"
-                >
-                  <Button
-                    radius="full"
-                    isIconOnly
-                    aria-label="add to cart"
-                    variant="light"
-                  >
-                    <AiOutlineShoppingCart size={24} />
-                  </Button>
-                </Badge>
-              ) : (
+            {cartItems.length > 0 && (
+              <Badge
+                content={cartItems.reduce((a, c) => a + c.qty, 0)}
+                shape="circle"
+                color="danger"
+              >
                 <Button
                   radius="full"
                   isIconOnly
+                  aria-label="add to cart"
                   variant="light"
-                  aria-label="Add to cart"
                 >
-                  <AiOutlineShoppingCart size={24} />
+                  <Link href="/cart">
+                    <AiOutlineShoppingCart size={24} />
+                  </Link>
                 </Button>
-              )}
-            </Link>
+              </Badge>
+            )}
 
             <Link href="/" className="ms-3">
               <Button
@@ -114,7 +104,7 @@ const Navbars = () => {
             </Link>
           </NavbarItem>
         </NavbarContent>
-        <NavbarMenu className="bg-yellow max-h-36 border-b-3  border-colors5">
+        <NavbarMenu className=" max-h-36 border-b-3  border-colors5">
           <NavbarMenuItem>
             <Link href="/home">Home</Link>
           </NavbarMenuItem>

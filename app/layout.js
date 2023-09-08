@@ -1,8 +1,8 @@
-import Navbars from './Components/Navbar/Navbars';
+import ReduxProvider from './ReduxProvider';
 import { Providers } from './Providers';
 import './globals.css';
 import { Poppins } from 'next/font/google';
-import ReduxProvider from './ReduxProvider';
+import Navbars from './Components/Navbar/Navbars';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -19,8 +19,8 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={poppins.className}>
         <ReduxProvider>
-          <Navbars />
           <Providers>
+            <Navbars />
             <main>{children}</main>
           </Providers>
         </ReduxProvider>
