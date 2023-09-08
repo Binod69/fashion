@@ -15,8 +15,7 @@ import {
 } from '@nextui-org/react';
 import { useGetProductDetailQuery } from '../redux/slice/productsApi.slice';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
-import Rating from '../Components/Rating/Rating';
-import SingleProductLoader from '../Components/SingleProductLoader/SingleProductLoader';
+import { Rating, SingleProductLoader } from '../Components';
 import { addToCart } from '../redux/slice/cartSlice';
 
 const SingleProductScreen = ({ id }) => {
@@ -119,7 +118,7 @@ const SingleProductScreen = ({ id }) => {
                 {product.countInStock > 0 && (
                   <>
                     <div className="flex">
-                      <h5 className="font-bold">Qty</h5>
+                      <h5 className="font-bold me-2">Qty: </h5>
                       {/* <Select
                         size="sm"
                         value={qty}

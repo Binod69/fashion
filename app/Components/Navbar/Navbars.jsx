@@ -97,7 +97,7 @@ const Navbars = () => {
                   variant="light"
                   aria-label="Add to cart"
                 >
-                  <AiOutlineShoppingCart size={18} />
+                  <AiOutlineShoppingCart size={24} />
                 </Button>
               )}
             </Link>

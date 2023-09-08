@@ -1,5 +1,4 @@
-import Cart from '../Components/Cart/Cart';
-
+import { Cart } from '../Components/index';
 const CartScreen = () => {
   return (
     <>

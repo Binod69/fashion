@@ -1,4 +1,4 @@
-import FetchProducts from '../Components/FetchProducts/FetchProducts';
+import { FetchProducts } from '../Components';
 const HomeScreen = () => {
   return (
     <>
