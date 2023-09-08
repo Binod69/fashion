@@ -35,107 +35,75 @@ const Navbars = () => {
             aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
             className="sm:hidden"
           />
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            <NavbarBrand>
-              <Link href="/">
-                <p className="text-inherit font-extrabold hover:text-colors6">
-                  Fashion
-                </p>
-              </Link>
-            </NavbarBrand>
-          </motion.div>
+
+          <NavbarBrand>
+            <Link href="/">
+              <p className="text-inherit font-extrabold hover:text-colors6">
+                Fashion
+              </p>
+            </Link>
+          </NavbarBrand>
         </NavbarContent>
 
         <NavbarContent
           className="hidden sm:flex gap-5  hover:text-colors6"
           justify="center"
         >
-          <motion.div
-            initial={{ y: -10, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.1 }}
-          >
-            <NavbarItem>
-              <Link color="foreground" href="/">
-                Home
-              </Link>
-            </NavbarItem>
-          </motion.div>
-          <motion.div
-            initial={{ y: -10, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.1, delay: 0.1 }}
-          >
-            <NavbarItem>
-              <Link href="/men">Men</Link>
-            </NavbarItem>
-          </motion.div>
-          <motion.div
-            initial={{ y: -10, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.1, delay: 0.2 }}
-          >
-            <NavbarItem>
-              <Link color="foreground" href="/women">
-                Women
-              </Link>
-            </NavbarItem>
-          </motion.div>
-          <motion.div
-            initial={{ y: -10, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.1, delay: 0.3 }}
-          >
-            <NavbarItem>
-              <Link color="foreground" href="/categories">
-                Categories
-              </Link>
-            </NavbarItem>
-          </motion.div>
+          <NavbarItem>
+            <Link color="foreground" href="/">
+              Home
+            </Link>
+          </NavbarItem>
+
+          <NavbarItem>
+            <Link href="/men">Men</Link>
+          </NavbarItem>
+
+          <NavbarItem>
+            <Link color="foreground" href="/women">
+              Women
+            </Link>
+          </NavbarItem>
+
+          <NavbarItem>
+            <Link color="foreground" href="/categories">
+              Categories
+            </Link>
+          </NavbarItem>
         </NavbarContent>
 
         <NavbarContent justify="end">
-          <motion.div
-            initial={{ y: -10, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.1, delay: 0.3 }}
-          >
-            <NavbarItem>
-              <Link href="/">
-                {cartItems.length > 0 && (
-                  <Badge
-                    content={cartItems.reduce((a, c) => a + c.qty, 0)}
-                    shape="circle"
-                    color="danger"
+          <NavbarItem>
+            {cartItems.length > 0 && (
+              <Badge
+                content={cartItems.reduce((a, c) => a + c.qty, 0)}
+                shape="circle"
+                color="danger"
+              >
+                <Link href="/cart">
+                  <Button
+                    radius="full"
+                    isIconOnly
+                    variant="light"
+                    aria-label="Add to cart"
                   >
-                    <Button
-                      radius="full"
-                      isIconOnly
-                      variant="light"
-                      aria-label="Add to cart"
-                      onClick={(e) => e.preventDefault()}
-                    >
-                      <AiOutlineShoppingCart size={18} />
-                    </Button>
-                  </Badge>
-                )}
-              </Link>
-              <Link href="/" className="ms-3">
-                <Button
-                  variant="bordered"
-                  aria-label="login or sign up"
-                  endContent={<AiOutlineUser />}
-                  onClick={(e) => e.preventDefault()}
-                >
-                  Login
-                </Button>
-              </Link>
-            </NavbarItem>
-          </motion.div>
+                    <AiOutlineShoppingCart size={18} />
+                  </Button>
+                </Link>
+              </Badge>
+            )}
+
+            <Link href="/" className="ms-3">
+              <Button
+                variant="bordered"
+                aria-label="login or sign up"
+                endContent={<AiOutlineUser />}
+                onClick={(e) => e.preventDefault()}
+              >
+                Login
+              </Button>
+            </Link>
+          </NavbarItem>
         </NavbarContent>
         <NavbarMenu className="bg-yellow max-h-36 border-b-3  border-colors5">
           <NavbarMenuItem>
