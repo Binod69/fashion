@@ -10,12 +10,12 @@ import {
   CardFooter,
   Image,
   Button,
-  Progress,
   Divider,
 } from '@nextui-org/react';
-import { IoMdTrash, IoBagCheckOutline } from 'react-icons/io';
+import { IoMdTrash } from 'react-icons/io';
 import { AiFillCarryOut } from 'react-icons/ai';
-import { Products, Rating } from '..';
+import { Rating } from '..';
+import { addToCart } from '../../redux/slice/cartSlice';
 
 const Cart = () => {
   const router = useRouter();
@@ -23,6 +23,10 @@ const Cart = () => {
 
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
+
+  const addToCartHandler = async (product, qty) => {
+    dispatch(addToCart({ ...product, qty }));
+  };
   return (
     <>
       <div className="container mx-auto h-screen my-10 ">
@@ -76,6 +80,26 @@ const Cart = () => {
                               <p className="text-sm font-medium mt-2">
                                 Price: {item.price}
                               </p>
+                              <div className="flex">
+                                <p className="me-2">Qty:</p>
+                                <select
+                                  value={item.qty}
+                                  onChange={(e) =>
+                                    addToCartHandler(
+                                      item,
+                                      Number(e.target.value)
+                                    )
+                                  }
+                                >
+                                  {[...Array(item.countInStock).keys()].map(
+                                    (x) => (
+                                      <option key={x + 1} value={x + 1}>
+                                        {x + 1}
+                                      </option>
+                                    )
+                                  )}
+                                </select>
+                              </div>
                             </div>
 
                             <Button
