@@ -37,6 +37,9 @@ const Cart = () => {
   const removeFromCartHandler = async (id) => {
     dispatch(removeFromCart(id));
   };
+  const checkOutHandler = () => {
+    router.push('/login?redirect=/shipping');
+  };
   return (
     <>
       <div className="container mx-auto h-screen my-10 ">
@@ -130,7 +133,7 @@ const Cart = () => {
                                   {(onClose) => (
                                     <>
                                       <ModalHeader className="flex flex-col gap-1">
-                                        Delete the Product ?
+                                        Delete from cart ?
                                       </ModalHeader>
                                       <ModalBody></ModalBody>
                                       <ModalFooter>
@@ -157,68 +160,6 @@ const Cart = () => {
                               </Modal>
                             </Button>
                           </div>
-
-                          <div className="flex flex-col mt-3 gap-1">
-                            {/* <Progress
-          aria-label="Music progress"
-          classNames={{
-            indicator: 'bg-default-800 dark:bg-white',
-            track: 'bg-default-500/30',
-          }}
-          color="default"
-          size="sm"
-          value={33}
-        />
-        <div className="flex justify-between">
-          <p className="text-small">1:23</p>
-          <p className="text-small text-foreground/50">
-            4:32
-          </p>
-        </div> */}
-                          </div>
-
-                          <div className="flex w-full items-center justify-center">
-                            <Button
-                              isIconOnly
-                              className="data-[hover]:bg-foreground/10"
-                              radius="full"
-                              variant="light"
-                            >
-                              {/* <RepeatOneIcon className="text-foreground/80" /> */}
-                            </Button>
-                            <Button
-                              isIconOnly
-                              className="data-[hover]:bg-foreground/10"
-                              radius="full"
-                              variant="light"
-                            >
-                              {/* <PreviousIcon /> */}
-                            </Button>
-                            <Button
-                              isIconOnly
-                              className="w-auto h-auto data-[hover]:bg-foreground/10"
-                              radius="full"
-                              variant="light"
-                            >
-                              {/* <PauseCircleIcon size={54} /> */}
-                            </Button>
-                            <Button
-                              isIconOnly
-                              className="data-[hover]:bg-foreground/10"
-                              radius="full"
-                              variant="light"
-                            >
-                              {/* <NextIcon /> */}
-                            </Button>
-                            <Button
-                              isIconOnly
-                              className="data-[hover]:bg-foreground/10"
-                              radius="full"
-                              variant="light"
-                            >
-                              {/* <ShuffleIcon className="text-foreground/80" /> */}
-                            </Button>
-                          </div>
                         </div>
                       </div>
                       <Divider />
@@ -232,7 +173,7 @@ const Cart = () => {
                       alt="nextui logo"
                       height={40}
                       radius="sm"
-                      src="https://avatars.githubusercontent.com/u/86160567?s=200&v=4"
+                      src="/images/cart.svg"
                       width={40}
                     />
                     <div className="flex flex-col">
@@ -245,7 +186,9 @@ const Cart = () => {
                         )}{' '}
                         items
                       </p>
-                      <p className="text-small text-default-500">nextui.org</p>
+                      <p className="text-small text-default-500">
+                        Happy shopping
+                      </p>
                     </div>
                   </CardHeader>
                   <Divider />
@@ -262,6 +205,7 @@ const Cart = () => {
                     <Button
                       endContent={<AiFillCarryOut size={16} />}
                       isDisabled={cartItems.length === 0}
+                      onClick={checkOutHandler}
                     >
                       Proceed to checkout
                     </Button>
