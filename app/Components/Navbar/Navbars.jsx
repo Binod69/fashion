@@ -72,23 +72,24 @@ const Navbars = () => {
 
         <NavbarContent justify="end">
           <NavbarItem className="flex gap-3 items-center">
+            <Button
+              className=" relative"
+              radius="full"
+              isIconOnly
+              aria-label="add to cart"
+              variant="light"
+            >
+              <Link href="/cart">
+                <AiOutlineShoppingCart size={24} />
+              </Link>
+            </Button>
             {cartItems.length > 0 && (
               <Badge
                 content={cartItems.reduce((a, c) => a + c.qty, 0)}
                 shape="circle"
                 color="danger"
-              >
-                <Button
-                  radius="full"
-                  isIconOnly
-                  aria-label="add to cart"
-                  variant="light"
-                >
-                  <Link href="/cart">
-                    <AiOutlineShoppingCart size={24} />
-                  </Link>
-                </Button>
-              </Badge>
+                className=" absolute right-5 -top-4"
+              ></Badge>
             )}
 
             <Link href="/" className="ms-3">
