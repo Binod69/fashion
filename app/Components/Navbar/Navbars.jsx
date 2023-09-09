@@ -24,7 +24,6 @@ const Navbars = () => {
       <Navbar
         isBordered
         shouldHideOnScroll
-        isBlurred={true}
         className="max-w-[100%] mx-auto"
         isMenuOpen={isMenuOpen}
         onMenuOpenChange={setIsMenuOpen}

@@ -26,45 +26,43 @@ const Cart = () => {
       <div className="container mx-auto h-screen my-10 ">
         <h2 className="text-3xl font-bold text-gray-400 my-5">Shopping</h2>
 
-        <div className="flex justify-between items-start flex-col">
+        <div className="">
           {cartItems.length === 0 ? (
             <>
-              <p>Cart is empty</p>
               <Link href="/">Go back</Link>
+              <p>Cart is empty</p>
             </>
           ) : (
             <>
               {cartItems.map((item) => (
-                <div
-                  key={item._id}
-                  className="flex justify-between items-start"
-                >
-                  <div className="flex justify-between items-start gap-10">
-                    <Card className="w-[100%] my-3">
-                      <CardBody className="flex">
-                        <Image
-                          src={item.image}
-                          alt={item.title}
-                          width={150}
-                          height={150}
-                          className="object-cover"
-                          shadow="sm"
-                        />
-                      </CardBody>
-                      <h5>{item.title}</h5>
+                <div key={item._id} className="flex justify-between ">
+                  <div>
+                    <Card radius="sm" className=" my-2 flex w-[200px]">
+                      <div>
+                        <CardBody className="flex">
+                          <Image
+                            radius="sm"
+                            src={item.image}
+                            alt={item.title}
+                            className=" object-cover"
+                          />
+                          <CardHeader>
+                            <Link
+                              href={`/products/${item._id}`}
+                              className="underline"
+                            >
+                              <h2>{item.title}</h2>
+                            </Link>
+                          </CardHeader>
+                        </CardBody>
+                      </div>
                     </Card>
-                    <Card>
-                      <CardBody>
-                        <Image
-                          src={item.image}
-                          alt={item.title}
-                          width={150}
-                          height={150}
-                          className="object-cover"
-                          shadow="sm"
-                        />
-                      </CardBody>
-                    </Card>
+                  </div>
+                  <div>
+                    <h2>
+                      subtotal:
+                      {cartItems.reduce((acc, item) => acc + item.qty, 0)}
+                    </h2>
                   </div>
                 </div>
               ))}
