@@ -11,21 +11,31 @@ import {
   Image,
   Button,
   Divider,
+  useDisclosure,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
 } from '@nextui-org/react';
 import { IoMdTrash } from 'react-icons/io';
 import { AiFillCarryOut } from 'react-icons/ai';
 import { Rating } from '..';
-import { addToCart } from '../../redux/slice/cartSlice';
+import { addToCart, removeFromCart } from '../../redux/slice/cartSlice';
 
 const Cart = () => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
 
   const addToCartHandler = async (product, qty) => {
     dispatch(addToCart({ ...product, qty }));
+  };
+  const removeFromCartHandler = async (id) => {
+    dispatch(removeFromCart(id));
   };
   return (
     <>
@@ -108,8 +118,43 @@ const Cart = () => {
                               radius="full"
                               variant="light"
                               aria-label="delete"
+                              onPress={onOpen}
                             >
                               <IoMdTrash size={15} />
+                              <Modal
+                                isOpen={isOpen}
+                                onOpenChange={onOpenChange}
+                                isDismissable={false}
+                              >
+                                <ModalContent>
+                                  {(onClose) => (
+                                    <>
+                                      <ModalHeader className="flex flex-col gap-1">
+                                        Delete the Product ?
+                                      </ModalHeader>
+                                      <ModalBody></ModalBody>
+                                      <ModalFooter>
+                                        <Button
+                                          color="danger"
+                                          variant="light"
+                                          onPress={onClose}
+                                        >
+                                          Cancel
+                                        </Button>
+                                        <Button
+                                          color="primary"
+                                          onPress={onClose}
+                                          onClick={() =>
+                                            removeFromCartHandler(item._id)
+                                          }
+                                        >
+                                          Delete
+                                        </Button>
+                                      </ModalFooter>
+                                    </>
+                                  )}
+                                </ModalContent>
+                              </Modal>
                             </Button>
                           </div>
 
