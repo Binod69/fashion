@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { Button, Card, CardBody, Input, Link } from '@nextui-org/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { saveShippingAddress } from '../redux/slice/cartSlice';
+import ShippingSteps from '../Components/ShippingStep/ShippingSteps';
 
 const ShippingScreen = () => {
   const cart = useSelector((state) => state.cart);
@@ -28,6 +29,7 @@ const ShippingScreen = () => {
   return (
     <>
       <div className="flex flex-col content-center my-10 items-center  w-full">
+        <ShippingSteps step1 step2 />
         <Card className="max-w-full flex lg:w-[400px] w-[350px] h-[400px]">
           <CardBody className="overflow-hidden">
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
