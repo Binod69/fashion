@@ -3,6 +3,7 @@ import { Providers } from './Providers';
 import './globals.css';
 import { Poppins } from 'next/font/google';
 import Navbars from './Components/Navbar/Navbars';
+import { Toaster } from 'react-hot-toast';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -22,6 +23,7 @@ export default function RootLayout({ children }) {
           <Providers>
             <Navbars />
             <main>{children}</main>
+            <Toaster />
           </Providers>
         </ReduxProvider>
       </body>

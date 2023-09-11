@@ -11,6 +11,12 @@ import {
   NavbarMenuItem,
   Button,
   Badge,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+  Avatar,
+  User,
 } from '@nextui-org/react';
 import { AiOutlineShoppingCart, AiOutlineUser } from 'react-icons/ai';
 import { useSelector } from 'react-redux';
@@ -18,7 +24,11 @@ import { useSelector } from 'react-redux';
 const Navbars = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { cartItems } = useSelector((state) => state.cart);
+  const { userInfo } = useSelector((state) => state.auth);
 
+  const handleLogout = () => {
+    console.log('logout');
+  };
   return (
     <>
       <Navbar
@@ -91,16 +101,72 @@ const Navbars = () => {
                 className=" absolute right-5 -top-4"
               ></Badge>
             )}
+            {userInfo ? (
+              <>
+                <div className="flex items-center gap-4">
+                  <Dropdown placement="bottom-end">
+                    <DropdownTrigger>
+                      <Avatar
+                        isBordered
+                        as="button"
+                        className="transition-transform"
+                        src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+                      />
+                    </DropdownTrigger>
+                    <DropdownMenu
+                      textValue="dropdown-menu"
+                      aria-label="Profile Actions"
+                      variant="flat"
+                    >
+                      <DropdownItem
+                        key="profile"
+                        textValue="profile"
+                        className="h-14 gap-2"
+                      >
+                        <p className="font-semibold">Signed in as</p>
+                        <p className="font-semibold">{userInfo.email}</p>
+                      </DropdownItem>
 
-            <Button
-              variant="bordered"
-              aria-label="login or sign up"
-              endContent={<AiOutlineUser />}
-            >
-              <Link href="/auth" className="ms-3">
-                Login
-              </Link>
-            </Button>
+                      <DropdownItem textValue="user-profile" key="user-profile">
+                        <Link href="/profile">Profile</Link>
+                      </DropdownItem>
+
+                      {/* <DropdownItem key="team_settings">
+                      Team Settings
+                    </DropdownItem>
+                    <DropdownItem key="analytics">Analytics</DropdownItem>
+                    <DropdownItem key="system">System</DropdownItem>
+                    <DropdownItem key="configurations">
+                      Configurations
+                    </DropdownItem>
+                    <DropdownItem key="help_and_feedback">
+                      Help & Feedback
+                    </DropdownItem> */}
+                      <DropdownItem
+                        textValue="logout"
+                        onClick={handleLogout}
+                        key="logout"
+                        color="danger"
+                      >
+                        Log Out
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
+                </div>
+              </>
+            ) : (
+              <>
+                <Button
+                  variant="bordered"
+                  aria-label="login or sign up"
+                  endContent={<AiOutlineUser />}
+                >
+                  <Link href="/auth" className="ms-3">
+                    Login
+                  </Link>
+                </Button>
+              </>
+            )}
           </NavbarItem>
         </NavbarContent>
         <NavbarMenu className=" max-h-36 border-b-3  border-colors5">

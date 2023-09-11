@@ -1,21 +1,65 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useDispatch, useSelector } from 'react-redux';
 import { Input, Link, Button } from '@nextui-org/react';
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { useLoginMutation } from '../../redux/slice/usersApiSlice';
+import { setCredentials } from '../../redux/slice/authSlice';
 import { BsEye, BsEyeSlash } from 'react-icons/bs';
+import toast from 'react-hot-toast';
 
 const Login = ({ onPress }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   const toggleVisibility = () => setIsVisible(!isVisible);
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  const schema = yup.object({
+    email: yup.string().email().required(),
+    password: yup
+      .string()
+      .min(8, 'Password must be 8 characters long')
+      .matches(/[0-9]/, 'Password requires a number')
+      .matches(/[a-z]/, 'Password requires a lowercase letter')
+      .matches(/[A-Z]/, 'Password requires an uppercase letter')
+      .matches(/[^\w]/, 'Password requires a symbol'),
+  });
+
+  const [login, { isLoading }] = useLoginMutation();
+  const { userInfo } = useSelector((state) => state.auth);
+  const { search } = router;
+  const sp = new URLSearchParams(search);
+  const redirect = sp.get('redirect') || '/';
+
+  useEffect(() => {
+    if (userInfo) {
+      router.push(redirect);
+    }
+  }, [userInfo, redirect, router]);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async (data) => {
+    const { email, password } = data;
+    try {
+      await login({ email, password }).unwrap();
+      dispatch(setCredentials({ ...data }));
+      router.push(redirect);
+      console.log(data);
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
+  };
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
@@ -26,6 +70,7 @@ const Login = ({ onPress }) => {
           placeholder="Enter your email"
           type="email"
           {...register('email')}
+          errorMessage={errors.email && errors.email.message}
         />
         <Input
           isRequired
@@ -47,15 +92,21 @@ const Login = ({ onPress }) => {
           type={isVisible ? 'text' : 'password'}
           className="max-w-xs"
           {...register('password')}
+          errorMessage={errors.password && errors.password.message}
         />
         <p className="text-center text-small">
           Need to create an account?{' '}
-          <Link className=" cursor-pointer" size="sm" onPress={onPress}>
+          <Link
+            href={redirect ? `/sign-up?redirect=${redirect}` : '/sign-up'}
+            className=" cursor-pointer"
+            size="sm"
+            onPress={onPress}
+          >
             Sign up
           </Link>
         </p>
         <div className="flex gap-2 justify-end">
-          <Button type="submit" fullWidth color="primary">
+          <Button type="submit" fullWidth color="primary" isLoading={isLoading}>
             Login
           </Button>
         </div>
