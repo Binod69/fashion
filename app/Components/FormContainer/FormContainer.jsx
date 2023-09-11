@@ -10,12 +10,10 @@ import {
   CardBody,
   CardHeader,
 } from '@nextui-org/react';
-import Login from '../Login/Login';
-import Register from '../Register/Register';
+import { Login, Register } from '../index';
 
 const FormContainer = () => {
   const [selected, setSelected] = useState('login');
-  const toggleVisibility = () => setIsVisible(!isVisible);
 
   return (
     <>

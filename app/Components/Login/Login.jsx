@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { Input, Link, Button } from '@nextui-org/react';
 import { useForm } from 'react-hook-form';
@@ -31,8 +31,8 @@ const Login = ({ onPress }) => {
 
   const [login, { isLoading }] = useLoginMutation();
   const { userInfo } = useSelector((state) => state.auth);
-  const { search } = router;
-  const sp = new URLSearchParams(search);
+  const { search } = usePathname();
+  const sp = new useSearchParams(search);
   const redirect = sp.get('redirect') || '/';
 
   useEffect(() => {

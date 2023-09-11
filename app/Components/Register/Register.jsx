@@ -170,7 +170,7 @@ const Register = ({ onPress }) => {
         </p>
         <div className="flex gap-2 justify-end">
           <Button isLoading={isLoading} type="submit" fullWidth color="primary">
-            Sign up
+            Register
           </Button>
         </div>
       </form>
