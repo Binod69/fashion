@@ -92,16 +92,15 @@ const Navbars = () => {
               ></Badge>
             )}
 
-            <Link href="/" className="ms-3">
-              <Button
-                variant="bordered"
-                aria-label="login or sign up"
-                endContent={<AiOutlineUser />}
-                onClick={(e) => e.preventDefault()}
-              >
+            <Button
+              variant="bordered"
+              aria-label="login or sign up"
+              endContent={<AiOutlineUser />}
+            >
+              <Link href="/auth" className="ms-3">
                 Login
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </NavbarItem>
         </NavbarContent>
         <NavbarMenu className=" max-h-36 border-b-3  border-colors5">
