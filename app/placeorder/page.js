@@ -1,12 +1,12 @@
 import React from 'react';
-import ShippingScreen from '../Screen/ShippingScreen';
+import PlaceOrderScreen from '../Screen/PlaceOrderScreen';
 import Private from '../Components/Private/Private';
 
 const page = () => {
   return (
     <>
       <Private>
-        <ShippingScreen />
+        <PlaceOrderScreen />
       </Private>
     </>
   );
