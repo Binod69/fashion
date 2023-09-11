@@ -1,13 +1,23 @@
 'use client';
-import React from 'react';
-import { useSelector } from 'react-redux/es/hooks/useSelector';
-import ShippingScreen from '../../Screen/ShippingScreen';
+import { useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
+import ShippingScreen from '../../Screen/ShippingScreen';
 
-const Private = () => {
+const Private = ({ children }) => {
   const { userInfo } = useSelector((state) => state.auth);
   const router = useRouter();
-  return userInfo ? <ShippingScreen /> : router.push('/auth');
+
+  if (!userInfo) {
+    typeof window !== 'undefined' && router.push('/auth');
+    return null;
+  }
+
+  return (
+    <>
+      <ShippingScreen />
+      {children}
+    </>
+  );
 };
 
 export default Private;
