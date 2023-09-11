@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import {
   Navbar,
@@ -18,16 +19,29 @@ import {
   Avatar,
   User,
 } from '@nextui-org/react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useLogoutMutation } from '@/app/redux/slice/usersApiSlice';
+import { logout } from '../../redux/slice/authSlice';
 import { AiOutlineShoppingCart, AiOutlineUser } from 'react-icons/ai';
-import { useSelector } from 'react-redux';
 
 const Navbars = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { cartItems } = useSelector((state) => state.cart);
   const { userInfo } = useSelector((state) => state.auth);
 
-  const handleLogout = () => {
-    console.log('logout');
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  const [logoutApiCall] = useLogoutMutation();
+
+  const handleLogout = async () => {
+    try {
+      await logoutApiCall().unwrap();
+      dispatch(logout());
+      router.push('/auth');
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <>
