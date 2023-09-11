@@ -21,7 +21,7 @@ const FormContainer = () => {
     <>
       <div className="mt-10">
         <div className="grid place-content-center  w-full">
-          <Card className="max-w-full w-[340px] h-[400px]">
+          <Card className="max-w-full w-[340px] h-[450px]">
             <CardBody className="overflow-hidden">
               <Tabs
                 fullWidth
