@@ -13,24 +13,28 @@ import toast from 'react-hot-toast';
 
 const Login = ({ onPress }) => {
   const [isVisible, setIsVisible] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const toggleVisibility = () => setIsVisible(!isVisible);
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const schema = yup.object({
-    email: yup.string().email().required(),
-    password: yup
-      .string()
-      .min(8, 'Password must be 8 characters long')
-      .matches(/[0-9]/, 'Password requires a number')
-      .matches(/[a-z]/, 'Password requires a lowercase letter')
-      .matches(/[A-Z]/, 'Password requires an uppercase letter')
-      .matches(/[^\w]/, 'Password requires a symbol'),
-  });
+  // const schema = yup.object({
+  //   email: yup.string().email().required(),
+  //   password: yup
+  //     .string()
+  //     .min(8, 'Password must be 8 characters long')
+  //     .matches(/[0-9]/, 'Password requires a number')
+  //     .matches(/[a-z]/, 'Password requires a lowercase letter')
+  //     .matches(/[A-Z]/, 'Password requires an uppercase letter')
+  //     .matches(/[^\w]/, 'Password requires a symbol'),
+  // });
 
   const [login, { isLoading }] = useLoginMutation();
+
   const { userInfo } = useSelector((state) => state.auth);
+
   const { search } = usePathname();
   const sp = new useSearchParams(search);
   const redirect = sp.get('redirect') || '/';
@@ -41,36 +45,48 @@ const Login = ({ onPress }) => {
     }
   }, [userInfo, redirect, router]);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
-
-  const onSubmit = async (data) => {
-    const { email, password } = data;
+  const submitHandler = async (e) => {
+    e.preventDefault();
     try {
-      await login({ email, password }).unwrap();
-      dispatch(setCredentials({ ...data }));
+      const res = await login({ email, password }).unwrap();
+      dispatch(setCredentials({ ...res }));
       router.push(redirect);
-      console.log(data);
+      toast.success('Login successful');
     } catch (err) {
       toast.error(err?.data?.message || err.error);
     }
   };
+
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   formState: { errors },
+  // } = useForm({
+  //   resolver: yupResolver(schema),
+  // });
+
+  // const onSubmit = async (data) => {
+  //   const { email, password } = data;
+  //   try {
+  //     await login({ email, password }).unwrap();
+  //     dispatch(setCredentials({ ...data }));
+  //     router.push(redirect);
+  //     console.log(data);
+  //   } catch (err) {
+  //     toast.error(err?.data?.message || err.error);
+  //   }
+  // };
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+      <form onSubmit={submitHandler} className="flex flex-col gap-4">
         <Input
           isRequired
           isClearable
           label="Email"
           placeholder="Enter your email"
           type="email"
-          {...register('email')}
-          errorMessage={errors.email && errors.email.message}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <Input
           isRequired
@@ -91,8 +107,8 @@ const Login = ({ onPress }) => {
           }
           type={isVisible ? 'text' : 'password'}
           className="max-w-xs"
-          {...register('password')}
-          errorMessage={errors.password && errors.password.message}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
         <p className="text-center text-small">
           Need to create an account?{' '}

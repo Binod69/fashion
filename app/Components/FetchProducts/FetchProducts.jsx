@@ -1,6 +1,6 @@
 'use client';
 import Products from '../Products/Products';
-import { useGetProductsQuery } from '@/app/redux/slice/productsApi.slice';
+import { useGetProductsQuery } from '../../redux/slice/productsApi.slice';
 import HomeLoader from './HomeLoader';
 const FetchProducts = () => {
   const { data: products, isLoading, error } = useGetProductsQuery();

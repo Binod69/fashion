@@ -1,6 +1,5 @@
 'use client';
 import Link from 'next/link';
-import NextImage from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -22,6 +21,7 @@ import { IoMdTrash } from 'react-icons/io';
 import { AiFillCarryOut } from 'react-icons/ai';
 import { Rating } from '..';
 import { addToCart, removeFromCart } from '../../redux/slice/cartSlice';
+import toast from 'react-hot-toast';
 
 const Cart = () => {
   const router = useRouter();
@@ -33,9 +33,11 @@ const Cart = () => {
 
   const addToCartHandler = async (product, qty) => {
     dispatch(addToCart({ ...product, qty }));
+    toast.success('Product added successfully');
   };
   const removeFromCartHandler = async (id) => {
     dispatch(removeFromCart(id));
+    toast.success('Product Removed');
   };
   const checkOutHandler = () => {
     router.push('/auth?redirect=/shipping');

@@ -1,5 +1,5 @@
 import { apiSlice } from './apiSlice';
-import apiEndpoints from '@/app/config/apiEndpoints';
+import apiEndpoints from '../../config/apiEndpoints';
 
 export const orderApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -7,7 +7,7 @@ export const orderApiSlice = apiSlice.injectEndpoints({
       query: (order) => ({
         url: apiEndpoints.ORDERS,
         method: 'POST',
-        body: { ...order },
+        body: order,
       }),
     }),
   }),

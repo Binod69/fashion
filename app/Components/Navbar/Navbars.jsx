@@ -20,9 +20,11 @@ import {
   User,
 } from '@nextui-org/react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLogoutMutation } from '@/app/redux/slice/usersApiSlice';
+import { useLogoutMutation } from '../../redux/slice/usersApiSlice';
 import { logout } from '../../redux/slice/authSlice';
 import { AiOutlineShoppingCart, AiOutlineUser } from 'react-icons/ai';
+import { resetCart } from '../../redux/slice/cartSlice';
+import toast from 'react-hot-toast';
 
 const Navbars = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -38,7 +40,9 @@ const Navbars = () => {
     try {
       await logoutApiCall().unwrap();
       dispatch(logout());
+      dispatch(resetCart());
       router.push('/auth');
+      toast.success('Logout Successfully');
     } catch (err) {
       console.log(err);
     }
@@ -124,7 +128,7 @@ const Navbars = () => {
                         isBordered
                         as="button"
                         className="transition-transform"
-                        src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+                        src="/images/user.png"
                       />
                     </DropdownTrigger>
                     <DropdownMenu
