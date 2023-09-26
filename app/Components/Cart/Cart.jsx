@@ -18,7 +18,7 @@ import {
   ModalFooter,
 } from '@nextui-org/react';
 import { IoMdTrash } from 'react-icons/io';
-import { AiFillCarryOut } from 'react-icons/ai';
+import { AiFillCarryOut, AiOutlineArrowLeft } from 'react-icons/ai';
 import { Rating } from '..';
 import { addToCart, removeFromCart } from '../../redux/slice/cartSlice';
 import toast from 'react-hot-toast';
@@ -33,7 +33,7 @@ const Cart = () => {
 
   const addToCartHandler = async (product, qty) => {
     dispatch(addToCart({ ...product, qty }));
-    toast.success('Product added successfully');
+    toast.success('Product Removed');
   };
   const removeFromCartHandler = async (id) => {
     dispatch(removeFromCart(id));
@@ -50,7 +50,10 @@ const Cart = () => {
         <div className="">
           {cartItems.length === 0 ? (
             <>
-              <Link href="/">Go back</Link>
+              <Button color="primary" startContent={<AiOutlineArrowLeft />}>
+                <Link href="/">Go back</Link>
+              </Button>
+
               <p>Cart is empty</p>
             </>
           ) : (

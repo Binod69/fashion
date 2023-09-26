@@ -3,6 +3,7 @@ const HomeScreen = () => {
   return (
     <>
       <FetchProducts />
+
     </>
   );
 };

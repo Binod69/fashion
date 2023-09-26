@@ -82,13 +82,13 @@ const PlaceOrderScreen = () => {
                   ) : (
                     <>
                       <Listbox variant="bordered">
-                        {cart.cartItems.map((item, index) => (
+                        {cart.cartItems.map((data, index) => (
                           <ListboxItem key={index}>
                             <div className="flex gap-3">
                               <figure>
                                 <Image
-                                  src={item.image}
-                                  alt={item.title}
+                                  src={data.image}
+                                  alt={data.title}
                                   width={50}
                                   height={50}
                                   className=" object-cover"
@@ -97,14 +97,14 @@ const PlaceOrderScreen = () => {
                               <div>
                                 <Link
                                   className="underline"
-                                  href={`/products/${item._id}`}
+                                  href={`/products/${data._id}`}
                                 >
-                                  {item.title}
+                                  {data.title}
                                 </Link>
                               </div>
                               <div>
-                                {item.qty} x {item.price} ={' '}
-                                {item.qty * item.price}
+                                {data.qty} x {data.price} ={' '}
+                                {data.qty * data.price}
                               </div>
                             </div>
                           </ListboxItem>
@@ -143,7 +143,13 @@ const PlaceOrderScreen = () => {
                     {cart.totalPrice}
                   </ListboxItem>
                 </ListboxSection>
-                <ListboxItem>{error && error.data.message}</ListboxItem>
+                {/* <ListboxItem>
+                  {error && (
+                    <p>
+                      {error.status} - {error.message}
+                    </p>
+                  )}
+                </ListboxItem> */}
                 <ListboxItem>
                   <Button
                     type="submit"

@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { Input, Link, Button } from '@nextui-org/react';
 import { BsEye, BsEyeSlash } from 'react-icons/bs';
@@ -16,6 +16,11 @@ const Register = ({ onPress }) => {
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
     useState(false);
 
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
   const togglePasswordVisibility = () =>
     setIsPasswordVisible(!isPasswordVisible);
 
@@ -25,35 +30,37 @@ const Register = ({ onPress }) => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const schema = yup.object().shape({
-    name: yup
-      .string()
-      .required('Name is required')
-      .min(3, 'Name must be at least 2 characters'),
-    email: yup
-      .string()
-      .email('Invalid email format')
-      .required('Email is required'),
+  // const schema = yup.object().shape({
+  //   name: yup
+  //     .string()
+  //     .required('Name is required')
+  //     .min(3, 'Name must be at least 2 characters'),
+  //   email: yup
+  //     .string()
+  //     .email('Invalid email format')
+  //     .required('Email is required'),
 
-    password: yup
-      .string()
-      .required('Password is required')
-      .min(8, 'Password must be at least 8 characters')
-      .matches(/[0-9]/, 'Password requires a number')
-      .matches(/[a-z]/, 'Password requires a lowercase letter')
-      .matches(/[A-Z]/, 'Password requires an uppercase letter')
-      .matches(/[^\w]/, 'Password requires a symbol'),
+  //   password: yup
+  //     .string()
+  //     .required('Password is required')
+  //     .min(8, 'Password must be at least 8 characters')
+  //     .matches(/[0-9]/, 'Password requires a number')
+  //     .matches(/[a-z]/, 'Password requires a lowercase letter')
+  //     .matches(/[A-Z]/, 'Password requires an uppercase letter')
+  //     .matches(/[^\w]/, 'Password requires a symbol'),
 
-    confirmPassword: yup
-      .string()
-      .oneOf([yup.ref('password'), null], 'Passwords must match')
-      .required('Confirm Password is required'),
-  });
+  //   confirmPassword: yup
+  //     .string()
+  //     .oneOf([yup.ref('password'), null], 'Passwords must match')
+  //     .required('Confirm Password is required'),
+  // });
 
   const [registers, { isLoading }] = useRegisterMutation();
+
   const { userInfo } = useSelector((state) => state.auth);
-  const { search } = router;
-  const sp = new URLSearchParams(search);
+
+  const { search } = usePathname();
+  const sp = new useSearchParams(search);
   const redirect = sp.get('redirect') || '/';
 
   useEffect(() => {
@@ -62,25 +69,41 @@ const Register = ({ onPress }) => {
     }
   }, [userInfo, redirect, navigator]);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   formState: { errors },
+  // } = useForm({
+  //   resolver: yupResolver(schema),
+  // });
 
-  const onSubmit = async (data) => {
-    const { name, email, password, confirmPassword } = data;
+  // const onSubmit = async (data) => {
+  //   const { name, email, password, confirmPassword } = data;
+
+  //   if (password !== confirmPassword) {
+  //     toast.error('Password do not match');
+  //   } else {
+  //     try {
+  //       await registers({ name, email, password }).unwrap();
+  //       dispatch(setCredentials({ ...data }));
+  //       router.push(redirect);
+  //       console.log(data);
+  //     } catch (err) {
+  //       toast.error(err?.data?.message || err.error);
+  //     }
+  //   }
+  // };
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
 
     if (password !== confirmPassword) {
-      toast.error('Password do not match');
+      toast.error('Passwords do not match');
     } else {
       try {
-        await registers({ name, email, password }).unwrap();
-        dispatch(setCredentials({ ...data }));
-        router.push(redirect);
-        console.log(data);
+        const res = await register({ name, email, password }).unwrap();
+        dispatch(setCredentials({ ...res }));
+        navigate(redirect);
       } catch (err) {
         toast.error(err?.data?.message || err.error);
       }
@@ -89,18 +112,15 @@ const Register = ({ onPress }) => {
 
   return (
     <>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-4 h-[400px]"
-      >
+      <form onSubmit={submitHandler} className="flex flex-col gap-4 h-[400px]">
         <Input
           isRequired
           isClearable
           label="Name"
           placeholder="Enter your name"
           type="text"
-          {...register('name')}
-          errorMessage={errors.name && errors.name.message}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
         <Input
           isRequired
@@ -108,8 +128,8 @@ const Register = ({ onPress }) => {
           label="Email"
           placeholder="Enter your email"
           type="email"
-          {...register('email')}
-          errorMessage={errors.email && errors.email.message}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <Input
           isRequired
@@ -130,8 +150,8 @@ const Register = ({ onPress }) => {
           }
           type={isPasswordVisible ? 'text' : 'password'}
           className="max-w-xs"
-          {...register('password')}
-          errorMessage={errors.password && errors.password.message}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
         <Input
           isRequired
@@ -152,10 +172,8 @@ const Register = ({ onPress }) => {
           }
           type={isConfirmPasswordVisible ? 'text' : 'password'}
           className="max-w-xs"
-          {...register('confirmPassword')}
-          errorMessage={
-            errors.confirmPassword && errors.confirmPassword.message
-          }
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
         />
         <p className="text-center text-small">
           Already have an account?{' '}

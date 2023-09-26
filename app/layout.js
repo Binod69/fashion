@@ -1,7 +1,7 @@
-import ReduxProvider from './ReduxProvider';
-import { Providers } from './Providers';
 import './globals.css';
 import { Poppins } from 'next/font/google';
+import ReduxProvider from './ReduxProvider';
+import { Providers } from './Providers';
 import Navbars from './Components/Navbar/Navbars';
 import { Toaster } from 'react-hot-toast';
 
