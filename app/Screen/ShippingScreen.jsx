@@ -15,14 +15,16 @@ const ShippingScreen = () => {
   const [postalCode, setPostalCode] = useState(
     shippingAddress?.postalCode || ''
   );
-  const [contact, setContact] = useState(shippingAddress?.contact || '');
+  const [phoneNumber, setPhoneNumber] = useState(
+    shippingAddress?.phoneNumber || ''
+  );
 
   const router = useRouter();
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(saveShippingAddress({ address, city, contact, postalCode }));
+    dispatch(saveShippingAddress({ address, city, phoneNumber, postalCode }));
     router.push('/payment');
   };
 
@@ -54,8 +56,8 @@ const ShippingScreen = () => {
                 label="Contact"
                 placeholder="Enter your contact number"
                 type="text"
-                value={contact}
-                onChange={(e) => setContact(e.target.value)}
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
               />
               <Input
                 isRequired

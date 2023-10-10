@@ -7,7 +7,8 @@ export const orderApiSlice = apiSlice.injectEndpoints({
       query: (order) => ({
         url: apiEndpoints.ORDERS,
         method: 'POST',
-        body: order,
+        body: { ...order },
+        credentials: 'include',
       }),
     }),
   }),

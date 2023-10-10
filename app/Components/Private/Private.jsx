@@ -1,13 +1,37 @@
+// 'use client';
+// import { useSelector } from 'react-redux';
+// import { redirect } from 'next/navigation';
+
+// const Private = ({ children }) => {
+//   const { userInfo } = useSelector((state) => state.auth);
+
+//   if (!userInfo) {
+//     typeof window !== 'undefined' && redirect('/auth');
+//     return null;
+//   }
+
+//   return <>{children}</>;
+// };
+
+// export default Private;
+
 'use client';
 import { useSelector } from 'react-redux';
-import { useRouter } from 'next/navigation';
+import { useEffect } from 'react'; // Import useEffect
+import { redirect } from 'next/navigation';
 
 const Private = ({ children }) => {
   const { userInfo } = useSelector((state) => state.auth);
-  const router = useRouter();
+
+  useEffect(() => {
+    // Use useEffect for side effects, like redirection
+    if (!userInfo) {
+      redirect('/auth');
+    }
+  }, [userInfo]); // Add userInfo as a dependency
 
   if (!userInfo) {
-    typeof window !== 'undefined' && router.push('/auth');
+    // You can return a loading indicator or null here
     return null;
   }
 

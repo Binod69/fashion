@@ -19,11 +19,11 @@ import { clearCartItems } from '../redux/slice/cartSlice';
 
 const PlaceOrderScreen = () => {
   const router = useRouter();
-  const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
 
   const [createOrder, { isLoading, error }] = useCreateOrderMutation();
   console.log(error);
+
   useEffect(() => {
     if (!cart.shippingAddress.address) {
       router.push('/shipping');
@@ -31,6 +31,8 @@ const PlaceOrderScreen = () => {
       router.push('/payment');
     }
   }, [cart.payment, cart.shippingAddress.address, router]);
+
+  const dispatch = useDispatch();
 
   const placeOrderHandler = async () => {
     try {
@@ -44,11 +46,13 @@ const PlaceOrderScreen = () => {
         totalPrice: cart.totalPrice,
       }).unwrap();
       dispatch(clearCartItems());
-      navigate(`/order/${res._id}`);
+      router.push(`/order/${res._id}`);
     } catch (err) {
-      toast.error(err);
+      // toast.error(err);
+      // console.log(err);
     }
   };
+
   return (
     <>
       <div className="grid place-content-center">
@@ -60,7 +64,7 @@ const PlaceOrderScreen = () => {
                 <ListboxItem key="shipping">
                   <p className="font-semibold">
                     {cart.shippingAddress.address},{cart.shippingAddress.city},
-                    {cart.shippingAddress.contact},
+                    {cart.shippingAddress.phoneNumber},
                     {cart.shippingAddress.postalCode}
                   </p>
                 </ListboxItem>
@@ -143,14 +147,10 @@ const PlaceOrderScreen = () => {
                     {cart.totalPrice}
                   </ListboxItem>
                 </ListboxSection>
-                {/* <ListboxItem>
-                  {error && (
-                    <p>
-                      {error.status} - {error.message}
-                    </p>
-                  )}
-                </ListboxItem> */}
-                <ListboxItem>
+                <ListboxItem key="error message">
+                  {/* {error && toast.error(error.data.message)} */}
+                </ListboxItem>
+                <ListboxItem key="submit btn">
                   <Button
                     type="submit"
                     isDisabled={cart.cartItems.length === 0}

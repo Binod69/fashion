@@ -106,10 +106,10 @@ const Navbars = () => {
               isIconOnly
               aria-label="add to cart"
               variant="light"
+              as={Link}
+              href="/cart"
             >
-              <Link href="/cart">
-                <AiOutlineShoppingCart size={24} />
-              </Link>
+              <AiOutlineShoppingCart size={24} />
             </Button>
             {cartItems.length > 0 && (
               <Badge
@@ -178,10 +178,11 @@ const Navbars = () => {
                   variant="bordered"
                   aria-label="login or sign up"
                   endContent={<AiOutlineUser />}
+                  as={Link}
+                  href="/auth"
+                  className="ms-3"
                 >
-                  <Link href="/auth" className="ms-3">
-                    Login
-                  </Link>
+                  Login
                 </Button>
               </>
             )}

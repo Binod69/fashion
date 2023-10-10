@@ -13,7 +13,7 @@
 //       query: (id) => ({
 //         url: `${apiEndpoints.PRODUCTS}/${id}`,
 //       }),
-//       keepUnusedDataFor: 5, 
+//       keepUnusedDataFor: 5,
 //     }),
 //   //second
 //   }),
@@ -30,6 +30,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
     getProducts: builder.query({
       query: () => ({
         url: apiEndpoints.PRODUCTS,
+        credentials: 'include',
       }),
       keepUnusedDataFor: 5, //second
     }),

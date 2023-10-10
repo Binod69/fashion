@@ -55,7 +55,7 @@ const Register = ({ onPress }) => {
   //     .required('Confirm Password is required'),
   // });
 
-  const [registers, { isLoading }] = useRegisterMutation();
+  const [register, { isLoading }] = useRegisterMutation();
 
   const { userInfo } = useSelector((state) => state.auth);
 
@@ -67,7 +67,7 @@ const Register = ({ onPress }) => {
     if (userInfo) {
       router.push(redirect);
     }
-  }, [userInfo, redirect, navigator]);
+  }, [userInfo, redirect]);
 
   // const {
   //   register,
@@ -101,9 +101,12 @@ const Register = ({ onPress }) => {
       toast.error('Passwords do not match');
     } else {
       try {
-        const res = await register({ name, email, password }).unwrap();
+        const res = await register(
+          { name, email, password },
+          { credentials: 'same-origin' }
+        ).unwrap();
         dispatch(setCredentials({ ...res }));
-        navigate(redirect);
+        router.push(redirect);
       } catch (err) {
         toast.error(err?.data?.message || err.error);
       }
